@@ -1,0 +1,34 @@
+backend:
+  name: github
+  repo: Emmado1203/quachgia-bbq
+  branch: main
+
+media_folder: "images"
+public_folder: "/images"
+
+collections:
+  - name: "pages"
+    label: "Trang Web"
+    files:
+      - label: "Trang Chu"
+        name: "homepage"
+        file: "index.html"
+        fields:
+          - {label: "Noi dung HTML", name: "body", widget: "code", default_language: "html"}
+      - label: "Trang Thuc Don"
+        name: "menu"
+        file: "menu.html"
+        fields:
+          - {label: "Noi dung HTML", name: "body", widget: "code", default_language: "html"}
+  - name: "settings"
+    label: "Cai Dat"
+    files:
+      - label: "Thong Tin Nha Hang"
+        name: "info"
+        file: "data/info.json"
+        fields:
+          - {label: "Ten Nha Hang", name: "name", widget: "string", default: "Quach Gia BBQ and Drink"}
+          - {label: "So Dien Thoai", name: "phone", widget: "string", default: "0855 015 035"}
+          - {label: "Dia Chi", name: "address", widget: "string"}
+          - {label: "Gio Mo Cua", name: "hours", widget: "string", default: "10:00 - 22:00"}
+          - {label: "Giam Gia Sinh Nhat", name: "birthday_discount", widget: "number", default: 15}

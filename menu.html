@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thực Đơn - Quách Gia BBQ & Drink</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #1a1a1a;
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        .header {
+            background-color: #1a1a1a;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 2px solid #FF5722;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(255, 87, 34, 0.1);
+        }
+
+        .header img {
+            height: 60px;
+            margin-bottom: 10px;
+            animation: slideDown 0.6s ease-out;
+        }
+
+        .header h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: #FF5722;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Gallery Section */
+        .gallery-section {
+            padding: 20px;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            margin-bottom: 30px;
+        }
+
+        .gallery-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            color: #FFC107;
+            text-align: center;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .gallery-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+            background-color: #2d2d2d;
+        }
+
+        .gallery-viewer {
+            position: relative;
+            width: 100%;
+            padding-bottom: 100%;
+            overflow: hidden;
+        }
+
+        .gallery-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .gallery-image.active {
+            opacity: 1;
+        }
+
+        .gallery-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background-color: #1a1a1a;
+        }
+
+        .gallery-nav {
+            position: absolute;
+            bottom: 15px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            z-index: 10;
+        }
+
+        .gallery-arrow {
+            background-color: rgba(255, 87, 34, 0.8);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-arrow:hover {
+            background-color: #FF5722;
+            transform: scale(1.1);
+        }
+
+        .gallery-arrow:active {
+            transform: scale(0.95);
+        }
+
+        .gallery-dots {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 80%;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            background-color: #FF5722;
+            width: 24px;
+            border-radius: 4px;
+        }
+
+        .dot:hover {
+            background-color: #FFC107;
+        }
+
+        .page-indicator {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #FFC107;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        /* Menu Section */
+        .menu-section {
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .menu-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            color: #FFC107;
+            text-align: center;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .tabs-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            scroll-behavior: smooth;
+        }
+
+        .tabs-container::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .tabs-container::-webkit-scrollbar-track {
+            background: #2d2d2d;
+            border-radius: 10px;
+        }
+
+        .tabs-container::-webkit-scrollbar-thumb {
+            background: #FF5722;
+            border-radius: 10px;
+        }
+
+        .tab-button {
+            padding: 10px 16px;
+            border: none;
+            background-color: #2d2d2d;
+            color: #ffffff;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .tab-button:hover {
+            background-color: #3d3d3d;
+            color: #FFC107;
+        }
+
+        .tab-button.active {
+            background-color: #FF5722;
+            color: #ffffff;
+            border-color: #FFC107;
+            box-shadow: 0 4px 12px rgba(255, 87, 34, 0.3);
+        }
+
+        .tab-content {
+            display: none;
+            animation: slideInTab 0.4s ease-out;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes slideInTab {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .menu-items {
+            display: grid;
+            gap: 12px;
+        }
+
+        .menu-item {
+            background-color: #2d2d2d;
+            padding: 16px;
+            border-radius: 8px;
+            border-left: 4px solid #FF5722;
+            transition: all 0.3s ease;
+        }
+
+        .menu-item:hover {
+            background-color: #3d3d3d;
+            transform: translateX(4px);
+            box-shadow: 0 4px 12px rgba(255, 87, 34, 0.2);
+        }
+
+        .menu-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 6px;
+        }
+
+        .menu-item-name {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            color: #ffffff;
+            flex: 1;
+        }
+
+        .menu-item-price {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            color: #FFC107;
+            white-space: nowrap;
+            padding: 4px 8px;
+            background-color: rgba(255, 193, 7, 0.1);
+            border-radius: 4px;
+        }
+
+        .menu-item-desc {
+            font-size: 12px;
+            color: #b0b0b0;
+            font-style: italic;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #2d2d2d;
+            padding: 30px 20px;
+            border-top: 2px solid #FF5722;
+            margin-top: 40px;
+        }
+
+        .footer-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .footer-section {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #3d3d3d;
+        }
+
+        .footer-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .footer-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            color: #FFC107;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .footer-text {
+            font-size: 13px;
+            color: #b0b0b0;
+            line-height: 1.8;
+        }
+
+        .footer-text a {
+            color: #FF5722;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-weight: 600;
+        }
+
+        .footer-text a:hover {
+            color: #FFC107;
+        }
+
+        .promo-box {
+            background: linear-gradient(135deg, rgba(255, 87, 34, 0.2) 0%, rgba(255, 193, 7, 0.1) 100%);
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid #FF5722;
+            text-align: center;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            color: #FFC107;
+            margin-bottom: 15px;
+        }
+
+        /* Floating Call Button */
+        .floating-call {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 56px;
+            height: 56px;
+            background-color: #FF5722;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 16px rgba(255, 87, 34, 0.4);
+            z-index: 200;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: white;
+            font-size: 24px;
+        }
+
+        .floating-call:hover {
+            background-color: #FFC107;
+            color: #1a1a1a;
+            transform: scale(1.15);
+            box-shadow: 0 6px 20px rgba(255, 87, 34, 0.6);
+        }
+
+        .floating-call:active {
+            transform: scale(0.95);
+        }
+
+        /* Back to Home */
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #FF5722;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: #FFC107;
+            gap: 12px;
+        }
+
+        /* Animations */
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .menu-section {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 20px;
+            }
+
+            .tab-button {
+                font-size: 11px;
+                padding: 8px 12px;
+            }
+
+            .menu-item {
+                padding: 12px;
+            }
+
+            .menu-item-name {
+                font-size: 13px;
+            }
+
+            .menu-item-price {
+                font-size: 13px;
+            }
+
+            .gallery-arrow {
+                width: 36px;
+                height: 36px;
+                font-size: 18px;
+            }
+
+            .floating-call {
+                width: 48px;
+                height: 48px;
+                font-size: 20px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .menu-section {
+                padding: 30px 40px;
+            }
+
+            .gallery-section {
+                padding: 30px 40px;
+            }
+
+            .menu-items {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer {
+                padding: 40px;
+            }
+
+            .footer-content {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 30px;
+                align-items: start;
+            }
+
+            .footer-section {
+                border-bottom: none;
+                padding-bottom: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <img src="images/logo.png" alt="Quách Gia BBQ & Drink Logo">
+        <h1>QUÁCH GIA BBQ & DRINK</h1>
+    </header>
+
+    <!-- Gallery Section -->
+    <section class="gallery-section">
+        <div class="gallery-title">📸 Xem Thực Đơn</div>
+        <div class="gallery-container">
+            <div class="page-indicator">
+                <span id="currentPage">1</span> / <span id="totalPages">22</span>
+            </div>
+            <div class="gallery-viewer" id="galleryViewer">
+                <div class="gallery-image active" data-index="0">
+                    <img src="images/menu/cover.jpg" alt="Menu Cover">
+                </div>
+                <div class="gallery-image" data-index="1">
+                    <img src="images/menu/0.jpg" alt="Menu Page 1">
+                </div>
+                <div class="gallery-image" data-index="2">
+                    <img src="images/menu/1.jpg" alt="Menu Page 2">
+                </div>
+                <div class="gallery-image" data-index="3">
+                    <img src="images/menu/2.jpg" alt="Menu Page 3">
+                </div>
+                <div class="gallery-image" data-index="4">
+                    <img src="images/menu/3.jpg" alt="Menu Page 4">
+                </div>
+                <div class="gallery-image" data-index="5">
+                    <img src="images/menu/4.jpg" alt="Menu Page 5">
+                </div>
+                <div class="gallery-image" data-index="6">
+                    <img src="images/menu/5.jpg" alt="Menu Page 6">
+                </div>
+                <div class="gallery-image" data-index="7">
+                    <img src="images/menu/6.jpg" alt="Menu Page 7">
+                </div>
+                <div class="gallery-image" data-index="8">
+                    <img src="images/menu/7.jpg" alt="Menu Page 8">
+                </div>
+                <div class="gallery-image" data-index="9">
+                    <img src="images/menu/8.jpg" alt="Menu Page 9">
+                </div>
+                <div class="gallery-image" data-index="10">
+                    <img src="images/menu/9.jpg" alt="Menu Page 10">
+                </div>
+                <div class="gallery-image" data-index="11">
+                    <img src="images/menu/10.jpg" alt="Menu Page 11">
+                </div>
+                <div class="gallery-image" data-index="12">
+                    <img src="images/menu/11.jpg" alt="Menu Page 12">
+                </div>
+                <div class="gallery-image" data-index="13">
+                    <img src="images/menu/12.jpg" alt="Menu Page 13">
+                </div>
+                <div class="gallery-image" data-index="14">
+                    <img src="images/menu/13.jpg" alt="Menu Page 14">
+                </div>
+                <div class="gallery-image" data-index="15">
+                    <img src="images/menu/14.jpg" alt="Menu Page 15">
+                </div>
+                <div class="gallery-image" data-index="16">
+                    <img src="images/menu/15.jpg" alt="Menu Page 16">
+                </div>
+                <div class="gallery-image" data-index="17">
+                    <img src="images/menu/16.jpg" alt="Menu Page 17">
+                </div>
+                <div class="gallery-image" data-index="18">
+                    <img src="images/menu/17.jpg" alt="Menu Page 18">
+                </div>
+                <div class="gallery-image" data-index="19">
+                    <img src="images/menu/18.jpg" alt="Menu Page 19">
+                </div>
+                <div class="gallery-image" data-index="20">
+                    <img src="images/menu/19.jpg" alt="Menu Page 20">
+                </div>
+                <div class="gallery-image" data-index="21">
+                    <img src="images/menu/20.jpg" alt="Menu Page 21">
+                </div>
+            </div>
+            <div class="gallery-nav">
+                <button class="gallery-arrow" id="prevBtn">‹</button>
+                <div class="gallery-dots" id="dotsContainer"></div>
+                <button class="gallery-arrow" id="nextBtn">›</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section class="menu-section">
+        <div class="menu-title">📋 Thực Đơn Chi Tiết</div>
+
+        <!-- Tabs -->
+        <div class="tabs-container" id="tabsContainer">
+            <button class="tab-button active" data-tab="0">Combo Nướng</button>
+            <button class="tab-button" data-tab="1">Combo Lẩu</button>
+            <button class="tab-button" data-tab="2">Bò</button>
+            <button class="tab-button" data-tab="3">Heo</button>
+            <button class="tab-button" data-tab="4">Gà & Hải Sản</button>
+            <button class="tab-button" data-tab="5">Món Chiên</button>
+            <button class="tab-button" data-tab="6">Mì Cay</button>
+            <button class="tab-button" data-tab="7">Đồ Ăn Kèm</button>
+            <button class="tab-button" data-tab="8">Nước Uống</button>
+            <button class="tab-button" data-tab="9">Bia & Rượu</button>
+        </div>
+
+        <!-- Tab Content -->
+
+        <!-- Combo Nướng -->
+        <div class="tab-content active" data-tab="0">
+            <div class="menu-items">
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name">Combo 1 (2 người)</div>
+                        <div class="menu-item-price">199K</div>
+                    </div>
+                    <div class="menu-item-desc">Bò bắp + bì heo + gà lắc + cải + kim chi</div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name">Combo 2 (2-3 người)</div>
+                        <div class="menu-item-price">249K</div>
+                    </div>
+                    <div class="menu-item-desc">Bò bắp + bì heo + gà lắc + ba chỉ bò + cải + kim chi</div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name">Combo 3 (3-4 người)</div>
+                        <div class="menu-item-price">349K</div>
+                    </div>
+                    <div class="menu-item-desc">Bò bắp + bì heo + gà lắc + ba chỉ bò + ba chỉ heo + cải + kim chi</div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name">Combo 4 (4-5 người)</div>
+                        <div class="menu-item-price">449K</div>
+                    </div>
+                    <div class="menu-item-desc">Bò bắp + bì heo + gà lắc + ba chỉ bò + ba chỉ heo + bò cuốn nấm + cải + kim chi</div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name">Combo 5 (5-6 người)</div>
+                        <div class="menu-item-price">549K</div>
+                    </div>
+                    <div class="menu-item-desc">Full combo</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Combo Lẩu -->
+        <div class="tab-content" data-tab="1">
+            <div class="menu-items">
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name">Combo Lẩu 1 (2 người)</div>
+                        <div class="menu-item-price">199K</div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name">Combo Lẩu 2 (2-3 người)</div>
+                        <div class="menu-item-price">249K</div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name">Combo Lẩu 3 (3-4 người)</div>
+                        <div class="menu-item-price">349K</div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name">Combo Lẩu 4 (4-5 người)</div>
+                        <div class="menu-item-price">449K</div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name">Combo Lẩu 5 (5-6 người)</div>
+                        <div class="menu-item-price">549K</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bò -->
+        <div class="tab-content" data-tab="2">
+            <div class="menu-items">
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name">Bắp bò</div>
+                        <div class="menu-item-price">99K</div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name">Ba chỉ bò</div>
+                        <div class="menu-item-price">99K</div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name">Bò cuốn nấm</div>
+                        <div class="menu-item-price">119K</div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name">Bò cuốn phô mai</div>
+                        <div class="menu-item-price">119K</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Heo -->
+        <div class="tab-content" data-tab="3">
+            <div class="menu-items">
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name">Ba chỉ heo</div>
+                        <div class="menu-item-price">79K</div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name">Bì heo</div>
+                        <div class="menu-item-price">69K</div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name">Nạc vai heo</div>
+                        <div class="menu-item-price">79K</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gà & Hải Sản -->
+        <div class="tab-content" data-tab="4">
+            <div class="menu-items">
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name">Gà lắc</div>
+                        <div class="menu-item-price">79K</div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name">Chân gà nướng</div>
+                        <div class="menu-item-price">49K/2 cái</div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name">Tôm</div>
+                        <div class="menu-item-price">99K</div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name">Mực</div>
+                        <div class="menu-item-price">89K</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Món Chiên -->
+        <div class="tab-content" data-tab="5">
+            <div class="menu-items">
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name">Khoai tây chiên</div>
+                        <div class="menu-item-price">39K</div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name">Phô mai que</div>
+                        <div class="menu-item-price">39K</div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name">Combo chiên</div>
+                        <div class="menu-item-price">59K</div>
+                    </div>
+                    <div class="menu-item-desc">Khoai + phô mai + viên chiên</div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name">Cánh gà chiên</div>
+                        <div class="menu-item-price">59K</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mì Cay -->
+        <div class="tab-content" data-tab="6">
+            <div class="menu-items">
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name">Mì cay cấp 1</div>
+                        <div class="menu-item-price">39K</div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name">Mì cay cấp 2</div>
+                        <div class="menu-item-price">49K</div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name">Mì cay cấp 3</div>
+                        <div class="menu-item-price">59K</div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name">Mì cay cấp 4</div>
+                        <div class="menu-item-price">69K</div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name">Mì cay cấp 5</div>
+                        <div class="menu-item-price">79K</div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name">Mì cay cấp 6</div>
+                        <div class="menu-item-price">89K</div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name">Mì cay cấp 7</div>
+                        <div class="menu-item-price">89K</div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name">Tokbokki</div>
+                        <div class="menu-item-price">49K</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Đồ Ăn Kèm -->
+        <div class="tab-content" data-tab="7">
+            <div class="menu-items">
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name">Rau nướng</div>
+                        <div class="menu-item-price">19K</div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name">Kim chi</div>
+                        <div class="menu-item-price">19K</div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name">Cơm</div>
+                        <div class="menu-item-price">5K</div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name">Bún</div>
+                        <div class="menu-item-price">10K</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Nước Uống -->
+        <div class="tab-content" data-tab="8">
+            <div class="menu-items">
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name">Coca / Pepsi / 7Up</div>
+                        <div class="menu-item-price">15K</div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name">Trà đá</div>
+                        <div class="menu-item-price">5K</div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name">Nước suối</div>
+                        <div class="menu-item-price">10K</div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name">Trà chanh</div>
+                        <div class="menu-item-price">25K</div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name">Sinh tố</div>
+                        <div class="menu-item-price">35K</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bia & Rượu -->
+        <div class="tab-content" data-tab="9">
+            <div class="menu-items">
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name">Bia Tiger</div>
+                        <div class="menu-item-price">20K</div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name">Bia Heineken</div>
+                        <div class="menu-item-price">25K</div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name">Bia Sài Gòn</div>
+                        <div class="menu-item-price">15K</div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name">Soju</div>
+                        <div class="menu-item-price">89K</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <a href="index.html" class="back-link">← Quay lại trang chủ</a>
+
+            <div class="promo-box">
+                🎉 Tổ chức sinh nhật tại quán - GIẢM 15%!
+            </div>
+
+            <div class="footer-section">
+                <div class="footer-title">📍 Địa Chỉ</div>
+                <div class="footer-text">352 Nguyễn Văn Thiệt, KP Tân Ba, Thạnh Hội, Tân Uyên, Bình Dương</div>
+            </div>
+
+            <div class="footer-section">
+                <div class="footer-title">📞 Liên Hệ</div>
+                <div class="footer-text">
+                    <a href="tel:0357040444">0357.040.444</a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <div class="footer-title">🕐 Giờ Mở Cửa</div>
+                <div class="footer-text">15:00 - 22:00 hàng ngày</div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Call Button -->
+    <a href="tel:0357040444" class="floating-call" title="Gọi ngay">
+        ☎
+    </a>
+
+    <script>
+        // Gallery functionality
+        let currentGalleryIndex = 0;
+        const totalImages = 22;
+
+        function initGallery() {
+            // Create dots
+            const dotsContainer = document.getElementById('dotsContainer');
+            for (let i = 0; i < totalImages; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'dot' + (i === 0 ? ' active' : '');
+                dot.addEventListener('click', () => goToImage(i));
+                dotsContainer.appendChild(dot);
+            }
+            document.getElementById('totalPages').textContent = totalImages;
+        }
+
+        function goToImage(index) {
+            currentGalleryIndex = (index + totalImages) % totalImages;
+            updateGallery();
+        }
+
+        function nextImage() {
+            currentGalleryIndex = (currentGalleryIndex + 1) % totalImages;
+            updateGallery();
+        }
+
+        function prevImage() {
+            currentGalleryIndex = (currentGalleryIndex - 1 + totalImages) % totalImages;
+            updateGallery();
+        }
+
+        function updateGallery() {
+            // Update images
+            const images = document.querySelectorAll('.gallery-image');
+            images.forEach((img, idx) => {
+                img.classList.toggle('active', idx === currentGalleryIndex);
+            });
+
+            // Update dots
+            const dots = document.querySelectorAll('.dot');
+            dots.forEach((dot, idx) => {
+                dot.classList.toggle('active', idx === currentGalleryIndex);
+            });
+
+            // Update page indicator
+            document.getElementById('currentPage').textContent = currentGalleryIndex + 1;
+        }
+
+        document.getElementById('nextBtn').addEventListener('click', nextImage);
+        document.getElementById('prevBtn').addEventListener('click', prevImage);
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextImage();
+            if (e.key === 'ArrowLeft') prevImage();
+        });
+
+        // Tab functionality
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const tabIndex = button.getAttribute('data-tab');
+
+                // Remove active class from all buttons and contents
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+
+                // Add active class to clicked button and corresponding content
+                button.classList.add('active');
+                document.querySelector(`.tab-content[data-tab="${tabIndex}"]`).classList.add('active');
+
+                // Scroll button into view
+                button.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            });
+        });
+
+        // Touch swipe for gallery
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.getElementById('galleryViewer').addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.getElementById('galleryViewer').addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            const threshold = 50;
+            if (touchStartX - touchEndX > threshold) {
+                nextImage();
+            } else if (touchEndX - touchStartX > threshold) {
+                prevImage();
+            }
+        }
+
+        // Initialize
+        initGallery();
+    </script>
+</body>
+</html>
